@@ -8,7 +8,7 @@ This script is designed to delete dead peds for all clients in a RedM server. I 
 
 - This has not been tested in a full server environment.
 - Resmon at 0.0 (client and server (svgui on windows)).
-- Used about +147.2 kib server and client side.
+- Used about +147.2 Kib memoery server and client side.
 
 ## Credits:
 •  Entity Enumerator used from Illidan54 https://gist.github.com/IllidanS4/9865ed17f60576425369fc1da70259b2
