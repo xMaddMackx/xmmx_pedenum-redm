@@ -4,7 +4,7 @@ This script is designed to delete dead peds for all clients in a RedM server. I 
 
 •  Deletes dead peds (excluding players and hunting animals in the ExludedAnimals table) from the Game World.
 
-•  Checks Every 5 minutes by default. (Can adjust in the server.lua)
+•  Checks Every 1 minute client-side to add DeadPeds to the table. Triggers every 30 minutes from the server-side to delete the DeadPeds and clear the table.
 
 - This has not been tested in a full server environment.
 - Resmon at 0.0 (client and server (svgui on windows)).
