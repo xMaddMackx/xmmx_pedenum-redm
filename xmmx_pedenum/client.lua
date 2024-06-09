@@ -88,6 +88,7 @@ ExcludedPeds = { -- In case these are killed during hunting then we don't remove
 	"a_c_goosecanada_01",
 	"a_c_hawk_01",
 	"a_c_heron_01",
+
 	"a_c_horse_americanpaint_greyovero",
 	"a_c_horse_americanpaint_overo",
 	"a_c_horse_americanpaint_splashedwhite",
@@ -234,6 +235,7 @@ ExcludedPeds = { -- In case these are killed during hunting then we don't remove
 	"a_c_horse_winter02_01",
 	"a_c_horsemule_01",
 	"a_c_horsemulepainted_01",
+    
 	"a_c_iguana_01",
 	"a_c_iguanadesert_01",
 	"a_c_javelina_01",
@@ -384,12 +386,35 @@ local function getPeds()
     return peds
 end
 
+local DeadPeds = {}
+
+Citizen.CreateThread(function()
+	while true do 
+		Citizen.Wait(60000)  -- Check every minute
+		local peds = getPeds()
+		for _, ped in ipairs(peds) do
+			if isPedDead(ped) and not IsPedAPlayer(ped) then
+                local alreadyListed = false
+                for _, deadPed in ipairs(DeadPeds) do
+                    if deadPed == ped then
+                        alreadyListed = true
+                        break
+                    end
+                end
+                if not alreadyListed then
+				    DeadPeds[#DeadPeds+1] = ped
+                end
+			end
+		end
+	end
+end)
+
 RegisterNetEvent("xmmx_checkAndDeleteDeadPeds")
 AddEventHandler("xmmx_checkAndDeleteDeadPeds", function()
-    local peds = getPeds()
-    for _, ped in ipairs(peds) do
-        if isPedDead(ped) and not IsPedAPlayer(ped) then
+    for _, ped in ipairs(DeadPeds) do
+        if DoesEntityExist(ped) and isPedDead(ped) and not IsPedAPlayer(ped) then
             deletePed(ped)
         end
     end
+    DeadPeds = {}  -- Clear the list after deleting
 end)
